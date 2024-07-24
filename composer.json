@@ -1,0 +1,43 @@
+{
+  "name": "art-of-wifi/unifi-cloud-api-client",
+  "description": "A PHP client for the Official UniFi Cloud API",
+  "type": "library",
+  "keywords": [
+    "ubiquiti",
+    "unifi",
+    "cloud",
+    "api",
+    "client"
+  ],
+  "homepage": "https://github.com/Art-of-WiFi/UniFi-Cloud-API-client",
+  "require": {
+    "php": ">=8.1",
+    "ext-curl": "*",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "UniFiCloudApiClient\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "UniFiCloudApiClient\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "authors": [
+    {
+      "name": "Art of WiFi",
+      "email": "info@artofowifi.net",
+      "homepage": "https://artofwifi.net"
+    }
+  ],
+  "minimum-stability": "dev",
+  "license": "MIT"
+}

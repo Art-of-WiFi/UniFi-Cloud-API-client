@@ -1,0 +1,15 @@
+# ignore composer lock file
+/composer.lock
+
+# ignore vendor directory
+/vendor
+
+# ignore phpdoc files
+/build
+.phpdoc-md
+
+# ignore XML files
+*.xml
+
+# ignore PHPStorm files
+.idea/*
