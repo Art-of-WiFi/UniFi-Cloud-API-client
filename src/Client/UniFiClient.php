@@ -4,8 +4,10 @@ namespace UniFiCloudApiClient\Client;
 
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use Throwable;
 use UniFiCloudApiClient\Service\HostService;
 use UniFiCloudApiClient\Service\SiteService;
 use UniFiCloudApiClient\Service\DeviceService;
@@ -142,7 +144,7 @@ class UniFiClient
     public function request(string $method, string $uri, array $options = []): array
     {
         $options['headers']['X-API-KEY'] = $this->apiKey;
-        $options['headers']['Accept'] = 'application/json';
+        $options['headers']['Accept']    = 'application/json';
 
         if (isset($options['query']) && is_array($options['query'])) {
             $uri .= '?' . $this->buildQuery($options['query']);
@@ -158,37 +160,42 @@ class UniFiClient
             $body       = json_decode($response->getBody(), true);
             $statusCode = $response->getStatusCode();
 
-            /**
-             * Check for specific status codes and throw exceptions with the message from the response
-             */
-            return match ($statusCode) {
-                200 => $body,
-                401 => throw new Exception('Unauthorized: ' . $body['message']),
-                429 => throw new Exception('Rate Limit Exceeded: ' . $body['message']),
-                500 => throw new Exception('Internal Server Error: ' . $body['message']),
-                502 => throw new Exception('Bad Gateway: ' . $body['message']),
-                default => throw new Exception('Unknown status code ' . $statusCode . ':' . $body['message']),
-            };
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
+            if ($statusCode === 200) {
+                return $body;
+            }
+
+            $message = $body['message'] ?? 'Unknown error';
+            throw new Exception($this->getExceptionMessageByStatusCode($statusCode, $message));
+        } catch (RequestException|ConnectException|Throwable $e) {
+            if ($e instanceof RequestException && $e->hasResponse()) {
                 $response   = $e->getResponse();
                 $body       = json_decode($response->getBody(), true);
                 $statusCode = $response->getStatusCode();
-
-                /**
-                 * Handle specific status codes when RequestException is caught
-                 */
-                throw match ($statusCode) {
-                    401     => new Exception('Unauthorized: ' . $body['message']),
-                    429     => new Exception('Rate Limit Exceeded: ' . $body['message']),
-                    500     => new Exception('Internal Server Error: ' . $body['message']),
-                    502     => new Exception('Bad Gateway: ' . $body['message']),
-                    default => new Exception($e->getMessage()),
-                };
+                $message    = $this->getExceptionMessageByStatusCode($statusCode, $body['message'] ?? $e->getMessage());
             } else {
-                throw new Exception($e->getMessage());
+                $message = $e->getMessage();
             }
+
+            throw new Exception($message);
         }
+    }
+
+    /**
+     * Determines the exception message based on the status code.
+     *
+     * @param int $statusCode HTTP status code.
+     * @param string $message Default message to use if a specific message isn't defined for the status code.
+     * @return string Exception message.
+     */
+    private function getExceptionMessageByStatusCode(int $statusCode, string $message): string
+    {
+        return match ($statusCode) {
+            401     => 'Unauthorized: ' . $message,
+            429     => 'Rate Limit Exceeded: ' . $message,
+            500     => 'Internal Server Error: ' . $message,
+            502     => 'Bad Gateway: ' . $message,
+            default => 'Unknown status code ' . $statusCode . ': ' . $message,
+        };
     }
 
     /**
