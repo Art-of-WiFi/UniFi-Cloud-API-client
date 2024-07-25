@@ -64,6 +64,9 @@ $unifiClient = UniFiClient::getInstance($apiKey);
 // Enable debug mode, optional
 $unifiClient->setDebug(true);
 
+// Set a custom timeout to override the default value of 10 seconds, optional
+$unifiClient->setTimeout(5);
+
 // fetch and echo the version
 echo 'UniFi Cloud API client version: ' . $unifiClient->getVersion() . PHP_EOL;
 
@@ -232,34 +235,34 @@ $devices = $unifiClient->devices->list(
   "data" => [
     [
       "devices" => [
-      [
-        "adoptionTime" => null,
-        "firmwareStatus" => "upToDate",
-        "id" => "F4E2C6C23F13",
-        "ip" => "192.168.1.226",
-        "isConsole" => true,
-        "isManaged" => true,
-        "mac" => "F4E2C6C23F13",
-        "model" => "UDM SE",
-        "name" => "unifi.yourdomain.com",
-        "note" => null,
-        "productLine" => "network",
-        "shortname" => "UDMPROSE",
-        "startupTime" => "2024-06-19T13:41:43Z",
-        "status" => "online",
-        "uidb" => [
-          "guid" => "0fd8c390-a0e8-4cb2-b93a-7b3051c83c46",
-          "id" => "e85485da-54c3-4906-8f19-3cef4116ff02",
-          "images" => [
-            "default" => "3008400039c483c496f4ad820242c447",
-            "nopadding" => "67b553529d0e523ca9dd4826076c5f3f",
-            "topology" => "8371ecdda1f00f1636a2eefadf0d7d47"
-          ]
-        ],
-        "updateAvailable" => null,
-        "version" => "4.0.6"
-      ]
-    ],
+        [
+          "adoptionTime" => null,
+          "firmwareStatus" => "upToDate",
+          "id" => "F4E2C6C23F13",
+          "ip" => "192.168.1.226",
+          "isConsole" => true,
+          "isManaged" => true,
+          "mac" => "F4E2C6C23F13",
+          "model" => "UDM SE",
+          "name" => "unifi.yourdomain.com",
+          "note" => null,
+          "productLine" => "network",
+          "shortname" => "UDMPROSE",
+          "startupTime" => "2024-06-19T13:41:43Z",
+          "status" => "online",
+          "uidb" => [
+            "guid" => "0fd8c390-a0e8-4cb2-b93a-7b3051c83c46",
+            "id" => "e85485da-54c3-4906-8f19-3cef4116ff02",
+            "images" => [
+              "default" => "3008400039c483c496f4ad820242c447",
+              "nopadding" => "67b553529d0e523ca9dd4826076c5f3f",
+              "topology" => "8371ecdda1f00f1636a2eefadf0d7d47"
+            ]
+          ],
+          "updateAvailable" => null,
+          "version" => "4.0.6"
+        ]
+      ],
       "hostId" => "900A6F00301100000000074A6BA90000000007A3387E0000000063EC9853:123456789",
       "hostName" => "unifi.yourdomain.com",
       "updatedAt" => "2024-07-15T07:01:13Z"
