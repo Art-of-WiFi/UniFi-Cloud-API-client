@@ -61,6 +61,11 @@ class UniFiClient
     private string $baseUri = 'https://api.ui.com';
 
     /**
+     * @var int Timeout value for the Guzzle client, default is 10 seconds
+     */
+    private int $timeout = 10;
+
+    /**
      * Constructor is private to prevent direct creation of objects.
      * Initializes the Guzzle client, API key, and optionally the base URI.
      *
@@ -110,6 +115,18 @@ class UniFiClient
         $this->debug = $debug;
     }
 
+
+    /**
+     * Change the timeout value for the Guzzle client.
+     *
+     * @param int $timeout Timeout value in seconds
+     * @return void
+     */
+    public function setTimeout(int $timeout): void
+    {
+        $this->timeout = $timeout;
+    }
+
     /**
      * Builds a query string from an array of parameters.
      *
@@ -154,6 +171,8 @@ class UniFiClient
         if ($this->debug) {
             $options['debug'] = true;
         }
+
+        $options['timeout'] = $this->timeout;
 
         try {
             $response   = $this->client->request($method, $uri, $options);

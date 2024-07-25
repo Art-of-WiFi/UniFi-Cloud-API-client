@@ -47,7 +47,7 @@ Composer installed already.
 
 ## Usage
 
-Below is a basic example of how to use the UniFi API Client NG:
+Below is a basic example of how to use the UniFi Cloud API Client:
 
 ```php
 <?php
@@ -87,6 +87,13 @@ $devices = $unifiClient->devices->list(
 );
 print_r($devices);
 ```
+
+## Getter and Setter Methods
+
+There are several getter and setter methods available to interact with the UniFi API client:
+- setTimeout(int $timeout): Sets the timeout for the HTTP requests in seconds, default is 10 seconds.
+- setDebug(bool $debug): Enables or disables debug mode, false by default.
+- getVersion(): Returns the version of the UniFi API client.
 
 ## API Reference
 
