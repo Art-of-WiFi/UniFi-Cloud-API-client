@@ -227,6 +227,7 @@ class UniFiClient
                 $query[] = urlencode($key) . '=' . urlencode($value);
             }
         }
+
         return implode('&', $query);
     }
 

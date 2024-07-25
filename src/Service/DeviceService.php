@@ -48,24 +48,15 @@ class DeviceService implements ServiceInterface
      */
     public function list(array $hostIds = [], string $time = null): array
     {
-        $query = [];
-        if (!empty($hostIds)) {
-            $query['hostIds'] = $hostIds;
-        }
+        /**
+         * array_filter() removes any null values from the $query array
+         */
+        $query = array_filter([
+            'hostIds' => !empty($hostIds) ? $hostIds : null,
+            'time'    => $time
+        ]);
 
-        if ($time) {
-            $query['time'] = $time;
-        }
-
-        if (!empty($query['hostIds'])) {
-            $query = 'hostIds[]=' . implode('&hostIds[]=', $query['hostIds']) . (isset($query['time']) ? '&time=' . $query['time'] : '');
-        }
-
-        $options = [
-            'query' => $query
-        ];
-
-        return $this->client->request('GET', '/ea/devices', $options);
+        return $this->client->request('GET', '/ea/devices', ['query' => $query]);
     }
 
     /**
