@@ -5,7 +5,6 @@ namespace UniFiCloudApiClient\Client;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Throwable;
 use UniFiCloudApiClient\Service\HostService;
@@ -13,7 +12,7 @@ use UniFiCloudApiClient\Service\SiteService;
 use UniFiCloudApiClient\Service\DeviceService;
 
 /**
- * UniFiClient is a class designed to interact with the official UniFi Cloud API
+ * a class designed to interact with the official UniFi Cloud API
  *
  * @see https://unifi.ui.com/api
  * @see https://developer.ui.com/unifi-api/
@@ -115,6 +114,15 @@ class UniFiClient
         $this->debug = $debug;
     }
 
+    /**
+     * Returns the debug mode flag.
+     *
+     * @return bool True if debug mode is enabled, false if disabled
+     */
+    public function getDebug(): bool
+    {
+        return $this->debug;
+    }
 
     /**
      * Change the timeout value for the Guzzle client.
@@ -128,24 +136,13 @@ class UniFiClient
     }
 
     /**
-     * Builds a query string from an array of parameters.
+     * Returns the timeout value for the Guzzle client.
      *
-     * @param array $params Parameters to include in the query string
-     * @return string Query string
+     * @return int Timeout value in seconds
      */
-    private function buildQuery(array $params): string
+    public function getTimeout(): int
     {
-        $query = [];
-        foreach ($params as $key => $value) {
-            if (is_array($value)) {
-                foreach ($value as $val) {
-                    $query[] = urlencode($key) . '[]=' . urlencode($val);
-                }
-            } else {
-                $query[] = urlencode($key) . '=' . urlencode($value);
-            }
-        }
-        return implode('&', $query);
+        return $this->timeout;
     }
 
     /**
@@ -156,12 +153,11 @@ class UniFiClient
      * @param string $uri URI for the request
      * @param array $options Additional options for the request
      * @return array Decoded JSON response
-     * @throws Exception|GuzzleException If the request fails without a response
+     * @throws Exception If the request fails without a response
      */
     public function request(string $method, string $uri, array $options = []): array
     {
-        $options['headers']['X-API-KEY'] = $this->apiKey;
-        $options['headers']['Accept']    = 'application/json';
+        $options = $this->setRequestHeaders($options);
 
         if (isset($options['query']) && is_array($options['query'])) {
             $uri .= '?' . $this->buildQuery($options['query']);
@@ -200,8 +196,44 @@ class UniFiClient
     }
 
     /**
+     * Sets the request headers for the API request.
+     *
+     * @param array $options
+     * @return array
+     */
+    public function setRequestHeaders(array $options = []): array
+    {
+        $options['headers']['X-API-KEY'] = $this->apiKey;
+        $options['headers']['Accept']    = 'application/json';
+
+        return $options;
+    }
+
+    /**
+     * Builds a query string from an array of parameters.
+     *
+     * @param array $params Parameters to include in the query string
+     * @return string Query string
+     */
+    private function buildQuery(array $params): string
+    {
+        $query = [];
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $val) {
+                    $query[] = urlencode($key) . '[]=' . urlencode($val);
+                }
+            } else {
+                $query[] = urlencode($key) . '=' . urlencode($value);
+            }
+        }
+        return implode('&', $query);
+    }
+
+    /**
      * Determines the exception message based on the status code.
      *
+     * @todo Add more status codes and messages as needed, consider adding a mapping array/class
      * @param int $statusCode HTTP status code.
      * @param string $message Default message to use if a specific message isn't defined for the status code.
      * @return string Exception message.
@@ -209,17 +241,21 @@ class UniFiClient
     private function getExceptionMessageByStatusCode(int $statusCode, string $message): string
     {
         return match ($statusCode) {
-            401     => 'Unauthorized: ' . $message,
-            429     => 'Rate Limit Exceeded: ' . $message,
-            500     => 'Internal Server Error: ' . $message,
-            502     => 'Bad Gateway: ' . $message,
-            default => 'Unknown status code ' . $statusCode . ': ' . $message,
+            401     => '401 Unauthorized: ' . $message,
+            403     => '403 Forbidden: ' . $message,
+            404     => '404 Not Found: ' . $message,
+            405     => '405 Method Not Allowed: ' . $message,
+            429     => '429 Rate Limit Exceeded: ' . $message,
+            500     => '500 Internal Server Error: ' . $message,
+            502     => '502 Bad Gateway: ' . $message,
+            503     => '503 Service Unavailable: ' . $message,
+            default => $statusCode . ' Unknown status code: ' . $message,
         };
     }
 
     /**
      * Magic method to get the service instance by name.
-     * If the service instance does not exist, it creates a new one based on the name.
+     * If the service instance does not yet exist, it creates a new one based on the name.
      * Supported services are 'hosts', 'sites', and 'devices'.
      *
      * @param string $name The name of the service to get.
@@ -233,7 +269,7 @@ class UniFiClient
                 'hosts'   => new HostService($this),
                 'sites'   => new SiteService($this),
                 'devices' => new DeviceService($this),
-                default   => throw new Exception("Service {$name} not found"),
+                default   => throw new Exception("Service $name not found"),
             };
         }
 

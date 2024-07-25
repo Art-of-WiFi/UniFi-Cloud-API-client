@@ -3,7 +3,6 @@
 namespace UniFiCloudApiClient\Service;
 
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use UniFiCloudApiClient\Client\UniFiClient;
 use UniFiCloudApiClient\Interface\ServiceInterface;
 
@@ -40,10 +39,10 @@ class SiteService implements ServiceInterface
     /**
      * Lists all sites.
      *
-     * @return mixed The list of all sites, format can vary based on implementation.
-     * @throws GuzzleException If there is an error in the HTTP request.
+     * @return array The list of all sites, format can vary based on implementation.
+     * @throws Exception If there is an error in the HTTP request.
      */
-    public function list(): mixed
+    public function list(): array
     {
         return $this->client->request('GET', '/ea/sites');
     }
@@ -52,10 +51,10 @@ class SiteService implements ServiceInterface
      * Retrieves a single site by its identifier.
      *
      * @param string $id The identifier of the site to retrieve.
-     * @return mixed The site data, format can vary based on implementation.
+     * @return array The site data, format can vary based on implementation.
      * @throws Exception If the method is not implemented.
      */
-    public function get(string $id): mixed
+    public function get(string $id): array
     {
         throw new Exception('Get site by ID not implemented');
     }

@@ -3,7 +3,6 @@
 namespace UniFiCloudApiClient\Service;
 
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use UniFiCloudApiClient\Client\UniFiClient;
 use UniFiCloudApiClient\Interface\ServiceInterface;
 
@@ -45,7 +44,7 @@ class DeviceService implements ServiceInterface
      * @param array $hostIds Optional. An array of host IDs to filter the devices.
      * @param mixed $time Optional. A time parameter to filter the devices.
      * @return array The list of devices, format can vary based on implementation.
-     * @throws Exception|GuzzleException If there is an error in the HTTP request.
+     * @throws Exception If there is an error in the HTTP request.
      */
     public function list(array $hostIds = [], string $time = null): array
     {
@@ -79,6 +78,6 @@ class DeviceService implements ServiceInterface
      */
     public function get(string $id): mixed
     {
-        throw new Exception('Get device by ID not implemented');
+        throw new Exception('Get device by ID not (yet) implemented');
     }
 }

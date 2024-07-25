@@ -2,7 +2,7 @@
 
 namespace UniFiCloudApiClient\Service;
 
-use GuzzleHttp\Exception\GuzzleException;
+use Exception;
 use UniFiCloudApiClient\Client\UniFiClient;
 use UniFiCloudApiClient\Interface\ServiceInterface;
 
@@ -39,7 +39,7 @@ class HostService implements ServiceInterface
      * Lists all hosts.
      *
      * @return array The list of all hosts, format can vary based on implementation.
-     * @throws GuzzleException
+     * @throws Exception
      */
     public function list(): array
     {
@@ -51,10 +51,10 @@ class HostService implements ServiceInterface
      *
      * @param string $id The identifier of the host to retrieve.
      * @return array The host data, format can vary based on implementation.
-     * @throws GuzzleException
+     * @throws Exception
      */
     public function get(string $id): array
     {
-        return $this->client->request('GET', "/ea/hosts/{$id}");
+        return $this->client->request('GET', "/ea/hosts/$id");
     }
 }

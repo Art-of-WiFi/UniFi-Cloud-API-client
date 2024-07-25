@@ -5,8 +5,9 @@ namespace UniFiCloudApiClient\Interface;
 /**
  * Defines the basic structure for service classes within the UniFi Cloud API client.
  *
- * This interface mandates the implementation of methods for listing all resources
- * and retrieving a single resource by its identifier.
+ * This interface mandates the implementation of methods for:
+ * - listing all resources, optionally filtered
+ * - retrieving a single resource by its identifier
  *
  * @see https://unifi.ui.com/api
  * @see https://developer.ui.com/unifi-api/
