@@ -21,6 +21,11 @@ use UniFiCloudApiClient\Service\DeviceService;
  * @author  Art of WiFi, info@artofwifi.net
  * @version see VERSION in UniFiClient.php or use the UniFiClient::getVersion() method
  * @license This class is subject to the MIT license bundled with this package in the file LICENSE.md
+ *
+ * properties accessed via magic methods:
+ * @property HostService $hosts
+ * @property SiteService $sites
+ * @property DeviceService $devices
  */
 class UniFiClient
 {
