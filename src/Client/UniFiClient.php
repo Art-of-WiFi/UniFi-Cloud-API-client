@@ -33,7 +33,7 @@ class UniFiClient
     /**
      * @var string Version of the UniFi API client
      */
-    private const VERSION = '1.0.0';
+    private const VERSION = '1.0.1';
 
     /**
      * @var Client Guzzle HTTP client instance

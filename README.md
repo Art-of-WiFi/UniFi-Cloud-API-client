@@ -67,7 +67,7 @@ $unifiClient->setDebug(true);
 // Set a custom timeout to override the default value of 10 seconds, optional
 $unifiClient->setTimeout(5);
 
-// fetch and echo the version
+// Fetch and echo the version
 echo 'UniFi Cloud API client version: ' . $unifiClient->getVersion() . PHP_EOL;
 
 // List all hosts
