@@ -58,37 +58,41 @@ use UniFiCloudApiClient\Client\UniFiClient;
 
 $apiKey = 'your_api_key_here';
 
-// Initialize the UniFi API client, optionally you can pass a different base URI
-$unifiClient = UniFiClient::getInstance($apiKey);
-
-// Enable debug mode, optional
-$unifiClient->setDebug(true);
-
-// Set a custom timeout to override the default value of 10 seconds, optional
-$unifiClient->setTimeout(5);
-
-// Fetch and echo the version
-echo 'UniFi Cloud API client version: ' . $unifiClient->getVersion() . PHP_EOL;
-
-// List all hosts
-$hosts = $unifiClient->hosts->list();
-print_r($hosts);
-
-// Get host by ID
-$hostId = 'your_host_id_here';
-$host = $unifiClient->hosts->get($hostId);
-print_r($host);
-
-// List all sites
-$sites = $unifiClient->sites->list();
-print_r($sites);
-
-// List all devices with optional parameters
-$devices = $unifiClient->devices->list(
-    ['900A6F00301100000000074A6BA90000000007A3387E0000000063EC9853:123456789', '900A6F00301100000000074A6BA90000000007A3387E0000000063EC9853:987654321'], 
-    '2024-07-15T07:01:13Z'
-);
-print_r($devices);
+try {
+    // Initialize the UniFi API client, optionally you can pass a different base URI
+    $unifiClient = UniFiClient::getInstance($apiKey);
+    
+    // Enable debug mode, optional
+    $unifiClient->setDebug(true);
+    
+    // Set a custom timeout to override the default value of 10 seconds, optional
+    $unifiClient->setTimeout(5);
+    
+    // Fetch and echo the version
+    echo 'UniFi Cloud API client version: ' . $unifiClient->getVersion() . PHP_EOL;
+    
+    // List all hosts
+    $hosts = $unifiClient->hosts->list();
+    print_r($hosts);
+    
+    // Get host by ID
+    $hostId = 'your_host_id_here';
+    $host = $unifiClient->hosts->get($hostId);
+    print_r($host);
+    
+    // List all sites
+    $sites = $unifiClient->sites->list();
+    print_r($sites);
+    
+    // List all devices with optional parameters
+    $devices = $unifiClient->devices->list(
+        ['900A6F00301100000000074A6BA90000000007A3387E0000000063EC9853:123456789', '900A6F00301100000000074A6BA90000000007A3387E0000000063EC9853:987654321'], 
+        '2024-07-15T07:01:13Z'
+    );
+    print_r($devices);
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage() . "\n";
+}
 ```
 
 ## Getter and Setter Methods
@@ -276,12 +280,14 @@ $devices = $unifiClient->devices->list(
 ```
 
 ### Rate Limiting
-The API rate limit is set to 100 requests per minute. If you exceed this limit, the server will respond with a 
-**429 Too Many Requests** status code.
 
-### IMPORTANT NOTE:
+The API rate limit is set to 100 requests per minute. If you exceed this limit, the server will respond with a 
+**429 Too Many Requests** status code. The client will throw an Exception if this happens.
+
+## Important note on general API support
+
 When encountering issues with the official UniFi Cloud API using other libraries, cURL or Postman, please do **not**
-open an Issue here. Such issues will be closed immediately.
+open an Issue here. Such Issues will be closed immediately.
 Please use the [Discussions](https://github.com/Art-of-WiFi/UniFi-Cloud-API-client/discussions) section instead.
 
 ## Contribute
