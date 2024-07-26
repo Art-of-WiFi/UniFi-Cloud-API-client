@@ -53,6 +53,21 @@ class UniFiClient
     /** @var int Timeout value for the Guzzle client, default is 10 seconds */
     private int $timeout = 10;
 
+    /** @var string|null Effective URI of the last request */
+    private ?string $effectiveUri = null;
+
+    /** @var float|null Transfer time of the last request */
+    private ?float $transferTime = null;
+
+    /** @var array|null Handler stats of the last request */
+    private ?array $handlerStats = null;
+
+    /** @var int|null Response status code of the last request */
+    private ?int $responseStatusCode = null;
+
+    /** @var mixed|null Handler error data of the last request */
+    private mixed $handlerErrorData = null;
+
     /**
      * Constructor is private to prevent direct creation of objects.
      * Initializes the Guzzle client, API key, and optionally the base URI.
@@ -91,9 +106,9 @@ class UniFiClient
     }
 
     /**
-     * Set debug mode to enable or disable debug output.
+     * Set debug mode to enable or disable Guzzle debug output.
      *
-     * @param bool $debug True to enable debug mode, false to disable
+     * @param bool $debug True to enable Guzzle debug mode, false to disable
      * @return void
      */
     public function setDebug(bool $debug): void
@@ -122,6 +137,36 @@ class UniFiClient
     public function getTimeout(): int
     {
         return $this->timeout;
+    }
+
+    /** @return ?string Base URI for the API */
+    public function getEffectiveUri(): ?string
+    {
+        return $this->effectiveUri;
+    }
+
+    /** @return ?float Transfer time of the last request */
+    public function getTransferTime(): ?float
+    {
+        return $this->transferTime;
+    }
+
+    /** @return ?int Response status code of the last request */
+    public function getResponseStatusCode(): ?int
+    {
+        return $this->responseStatusCode;
+    }
+
+    /** @return ?array Handler stats of the last request */
+    public function getHandlerStats(): ?array
+    {
+        return $this->handlerStats;
+    }
+
+    /** @return mixed Handler error data of the last request */
+    public function getHandlerErrorData(): mixed
+    {
+        return $this->handlerErrorData;
     }
 
     /**
@@ -182,7 +227,14 @@ class UniFiClient
             $options['debug'] = true;
         }
 
-        $options['timeout'] = $this->timeout;
+        $options['timeout']  = $this->timeout;
+        $options['on_stats'] = function ($stats) {
+            $this->effectiveUri       = (string)$stats->getEffectiveUri();
+            $this->transferTime       = $stats->getTransferTime();
+            $this->handlerStats       = $stats->getHandlerStats();
+            $this->responseStatusCode = $stats->hasResponse() ? $stats->getResponse()->getStatusCode() : null;
+            $this->handlerErrorData   = $stats->getHandlerErrorData();
+        };
 
         return $options;
     }
