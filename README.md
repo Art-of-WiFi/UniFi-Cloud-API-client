@@ -103,18 +103,18 @@ echo 'Response status: ' . $unifiClient->getResponseStatusCode() . PHP_EOL;
 
 There are several getter and setter methods available to interact with the UniFi Cloud API client:
 
-| Method                    | Description                                                                 |
-|---------------------------|-----------------------------------------------------------------------------|
-| `setTimeout(int $timeout)`| Sets the timeout for the HTTP requests in seconds, default is 10 seconds.   |
-| `getTimeout()`            | Returns the timeout for the HTTP requests in seconds.                       |
-| `setDebug(bool $debug)`   | Enables or disables debug mode, false by default.                           |
-| `getDebug()`              | Returns the debug mode status.                                              |
-| `getVersion()`            | Returns the version of the UniFi Cloud API client.                          |
-| `getEffectiveUri()`       | Returns the effective URI of the last request.                              |
-| `getTransferTime()`       | Returns the transfer time of the last request in seconds.                   |
-| `getResponseStatusCode()` | Returns the response status code of the last request.                       |
-| `getHandlerStats()`       | Returns the handler statistics of the last request.                         |
-| `getHandlerErrorData()`   | Returns the handler errors of the last request.                             |
+| Method                    | Description                                                               |
+|---------------------------|---------------------------------------------------------------------------|
+| `setTimeout(int $timeout)`| Sets the timeout for the HTTP requests in seconds, default is 10 seconds. |
+| `getTimeout()`            | Returns the timeout for the HTTP requests in seconds.                     |
+| `setDebug(bool $debug)`   | Enables or disables debug mode, false by default.                         |
+| `getDebug()`              | Returns the debug mode status.                                            |
+| `getVersion()`            | Returns the version of the UniFi Cloud API client.                        |
+| `getEffectiveUri()`       | Returns the effective URI of the last request.                            |
+| `getTransferTime()`       | Returns the transfer time of the last request in seconds.                 |
+| `getResponseStatusCode()` | Returns the response status code of the last request.                     |
+| `getHandlerStats()`       | Returns the Guzzle handler statistics of the last request.                |
+| `getHandlerErrorData()`   | Returns the Guzzle handler errors of the last request.                    |
 
 
 ## API Reference
