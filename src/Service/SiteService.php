@@ -7,7 +7,7 @@ use UniFiCloudApiClient\Client\UniFiClient;
 use UniFiCloudApiClient\Interface\ServiceInterface;
 
 /**
- * Service class for managing sites within the UniFi API client.
+ * Service class for managing sites within the UniFi Cloud API client.
  * Provides functionality to list all sites and retrieve a single site by its identifier.
  * Note: Retrieving a single site by ID is currently not implemented.
  *
@@ -21,13 +21,13 @@ use UniFiCloudApiClient\Interface\ServiceInterface;
  */
 class SiteService implements ServiceInterface
 {
-    /** @var UniFiClient The UniFi API client instance. */
+    /** @var UniFiClient The UniFi Cloud API client instance. */
     private UniFiClient $client;
 
     /**
      * Constructs a new SiteService instance.
      *
-     * @param UniFiClient $client The UniFi API client instance.
+     * @param UniFiClient $client The UniFi Cloud API client instance.
      */
     public function __construct(UniFiClient $client)
     {

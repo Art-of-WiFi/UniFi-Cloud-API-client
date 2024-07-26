@@ -59,7 +59,7 @@ use UniFiCloudApiClient\Client\UniFiClient;
 $apiKey = 'your_api_key_here';
 
 try {
-    // Initialize the UniFi API client, optionally you can pass a different base URI
+    // Initialize the UniFi Cloud API client, optionally you can pass a different base URI
     $unifiClient = UniFiClient::getInstance($apiKey);
     
     // Enable debug mode, optional
@@ -97,12 +97,12 @@ try {
 
 ## Getter and Setter Methods
 
-There are several getter and setter methods available to interact with the UniFi API client:
+There are several getter and setter methods available to interact with the UniFi Cloud API client:
 - setTimeout(int $timeout): Sets the timeout for the HTTP requests in seconds, default is 10 seconds.
 - getTimeout(): Returns the timeout for the HTTP requests in seconds.
 - setDebug(bool $debug): Enables or disables debug mode, false by default.
 - getDebug(): Returns the debug mode status.
-- getVersion(): Returns the version of the UniFi API client.
+- getVersion(): Returns the version of the UniFi Cloud API client.
 
 ## API Reference
 

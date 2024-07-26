@@ -32,8 +32,8 @@ class UniFiClient
     /** @var UniFiClient|null Singleton instance of UniFiClient */
     private static ?UniFiClient $instance = null;
 
-    /** @var string Version of the UniFi API client */
-    private const VERSION = '1.0.1';
+    /** @var string Version of the UniFi Cloud API client */
+    private const VERSION = '1.0.3';
 
     /** @var Client Guzzle HTTP client instance */
     private Client $client;
@@ -80,34 +80,28 @@ class UniFiClient
         if (self::$instance === null) {
             self::$instance = new UniFiClient($apiKey, $baseUri);
         }
+
         return self::$instance;
     }
 
-    /**
-     * Returns the version of the UniFi API client.
-     *
-     * @return string Version of the UniFi API client
-     */
+    /** @return string Version of the UniFi Cloud API client */
     public function getVersion(): string
     {
         return self::VERSION;
     }
 
     /**
-     * Enables or disables debug mode.
+     * Set debug mode to enable or disable debug output.
      *
      * @param bool $debug True to enable debug mode, false to disable
+     * @return void
      */
     public function setDebug(bool $debug): void
     {
         $this->debug = $debug;
     }
 
-    /**
-     * Returns the debug mode flag.
-     *
-     * @return bool True if debug mode is enabled, false if disabled
-     */
+    /** @return bool True if debug mode is enabled, false if disabled */
     public function getDebug(): bool
     {
         return $this->debug;
@@ -124,11 +118,7 @@ class UniFiClient
         $this->timeout = $timeout;
     }
 
-    /**
-     * Returns the timeout value for the Guzzle client.
-     *
-     * @return int Timeout value in seconds
-     */
+    /** @return int Timeout value in seconds */
     public function getTimeout(): int
     {
         return $this->timeout;
@@ -146,18 +136,12 @@ class UniFiClient
      */
     public function request(string $method, string $uri, array $options = []): array
     {
-        $options = $this->setRequestHeaders($options);
+        $options = $this->expandOptions($options);
 
         if (isset($options['query']) && is_array($options['query'])) {
             $uri .= '?' . $this->buildQuery($options['query']);
             unset($options['query']);
         }
-
-        if ($this->debug) {
-            $options['debug'] = true;
-        }
-
-        $options['timeout'] = $this->timeout;
 
         try {
             $response   = $this->client->request($method, $uri, $options);
@@ -185,12 +169,31 @@ class UniFiClient
     }
 
     /**
-     * Sets the request headers for the API request.
+     * Expands the $options array for the Guzzle client.
      *
      * @param array $options
      * @return array
      */
-    public function setRequestHeaders(array $options = []): array
+    public function expandOptions(array $options): array
+    {
+        $options = $this->generateRequestHeaders($options);
+
+        if ($this->debug) {
+            $options['debug'] = true;
+        }
+
+        $options['timeout'] = $this->timeout;
+
+        return $options;
+    }
+
+    /**
+     * Generates the request headers for the API request.
+     *
+     * @param array $options
+     * @return array
+     */
+    public function generateRequestHeaders(array $options = []): array
     {
         $options['headers']['X-API-KEY'] = $this->apiKey;
         $options['headers']['Accept']    = 'application/json';
