@@ -21,9 +21,7 @@ use UniFiCloudApiClient\Interface\ServiceInterface;
  */
 class SiteService implements ServiceInterface
 {
-    /**
-     * @var UniFiClient The UniFi API client instance.
-     */
+    /** @var UniFiClient The UniFi API client instance. */
     private UniFiClient $client;
 
     /**

@@ -29,44 +29,28 @@ use UniFiCloudApiClient\Service\DeviceService;
  */
 class UniFiClient
 {
-    /**
-     * @var UniFiClient|null Singleton instance of UniFiClient
-     */
+    /** @var UniFiClient|null Singleton instance of UniFiClient */
     private static ?UniFiClient $instance = null;
 
-    /**
-     * @var string Version of the UniFi API client
-     */
+    /** @var string Version of the UniFi API client */
     private const VERSION = '1.0.1';
 
-    /**
-     * @var Client Guzzle HTTP client instance
-     */
+    /** @var Client Guzzle HTTP client instance */
     private Client $client;
 
-    /**
-     * @var string API key for authentication
-     */
+    /** @var string API key for authentication */
     private string $apiKey;
 
-    /**
-     * @var bool Debug mode flag
-     */
+    /** @var bool Debug mode flag */
     private bool $debug = false;
 
-    /**
-     * @var array Services related to the API
-     */
+    /** @var array Services related to the API */
     private array $services = [];
 
-    /**
-     * @var string Base URI for the API
-     */
+    /** @var string Base URI for the API */
     private string $baseUri = 'https://api.ui.com';
 
-    /**
-     * @var int Timeout value for the Guzzle client, default is 10 seconds
-     */
+    /** @var int Timeout value for the Guzzle client, default is 10 seconds */
     private int $timeout = 10;
 
     /**
@@ -74,7 +58,7 @@ class UniFiClient
      * Initializes the Guzzle client, API key, and optionally the base URI.
      *
      * @param string $apiKey API key for authentication
-     * @param string|null $baseUri Optional base URI for the API
+     * @param null|string $baseUri Optional base URI for the API
      */
     private function __construct(string $apiKey, ?string $baseUri = null)
     {
@@ -217,7 +201,7 @@ class UniFiClient
     /**
      * Builds a query string from an array of parameters.
      *
-     * @param array $params Parameters to include in the query string
+     * @param array<string> $params Parameters to include in the query string
      * @return string Query string
      */
     private function buildQuery(array $params): string

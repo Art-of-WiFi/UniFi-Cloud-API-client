@@ -3,6 +3,7 @@
 namespace UniFiCloudApiClient\Service;
 
 use Exception;
+use InvalidArgumentException;
 use UniFiCloudApiClient\Client\UniFiClient;
 use UniFiCloudApiClient\Interface\ServiceInterface;
 
@@ -21,9 +22,7 @@ use UniFiCloudApiClient\Interface\ServiceInterface;
  */
 class DeviceService implements ServiceInterface
 {
-    /**
-     * @var UniFiClient The UniFi API client instance.
-     */
+    /** @var UniFiClient The UniFi API client instance. */
     private UniFiClient $client;
 
     /**
@@ -41,18 +40,23 @@ class DeviceService implements ServiceInterface
      * If host IDs are provided, devices are filtered by those IDs.
      * If time is provided, filters devices by the specified time.
      *
-     * @param array $hostIds Optional. An array of host IDs to filter the devices.
+     * @param array<string> $hostIds Optional. An array of host IDs to filter the devices.
      * @param mixed $time Optional. A time parameter to filter the devices.
      * @return array The list of devices, format can vary based on implementation.
-     * @throws Exception If there is an error in the HTTP request.
+     * @throws Exception If there is an error in the HTTP request, or if the host IDs are not strings.
      */
     public function list(array $hostIds = [], string $time = null): array
     {
-        /**
-         * array_filter() removes any null values from the $query array
-         */
+        /** Validate that all elements in the $hostIds array are strings */
+        foreach ($hostIds as $hostId) {
+            if (!is_string($hostId)) {
+                throw new InvalidArgumentException('Host IDs must be strings.');
+            }
+        }
+
+        /** array_filter() removes any null values from the $query array */
         $query = array_filter([
-            'hostIds' => !empty($hostIds) ? $hostIds : null,
+            'hostIds' => $hostIds ?: null,
             'time'    => $time
         ]);
 

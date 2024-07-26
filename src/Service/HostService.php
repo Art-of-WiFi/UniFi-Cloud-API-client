@@ -20,9 +20,7 @@ use UniFiCloudApiClient\Interface\ServiceInterface;
  */
 class HostService implements ServiceInterface
 {
-    /**
-     * @var UniFiClient The UniFi API client instance.
-     */
+    /** @var UniFiClient The UniFi API client instance. */
     private UniFiClient $client;
 
     /**
