@@ -105,7 +105,7 @@ There are several getter and setter methods available to interact with the UniFi
 
 | Method                    | Description                                                               |
 |---------------------------|---------------------------------------------------------------------------|
-| `setTimeout($timeout)`.   | Sets the timeout for the HTTP requests in seconds, default is 10 seconds. |
+| `setTimeout($timeout)`    | Sets the timeout for the HTTP requests in seconds, default is 10 seconds. |
 | `getTimeout()`            | Returns the timeout for the HTTP requests in seconds.                     |
 | `setDebug($debug)`        | Enables or disables debug mode, false by default.                         |
 | `getDebug()`              | Returns the debug mode status.                                            |
