@@ -84,7 +84,7 @@ try {
     $sites = $unifiClient->sites->list();
     print_r($sites);
     
-    // List all devices with optional parameters
+    // List all devices with optional filter parameters
     $devices = $unifiClient->devices->list(
         ['900A6F00301100000000074A6BA90000000007A3387E0000000063EC9853:123456789', '900A6F00301100000000074A6BA90000000007A3387E0000000063EC9853:987654321'], 
         '2024-07-15T07:01:13Z'
