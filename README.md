@@ -18,15 +18,15 @@ https://github.com/Art-of-WiFi/UniFi-API-client
 ## Requirements
 
 - a server with:
-    - PHP **8.1** or higher
-    - php-curl module installed and enabled
-- direct network connectivity between this server and https://api.ui.com
+    - PHP **8.1** or higher installed.
+    - the **php-curl** module installed and enabled.
+- direct network connectivity between this server and https://api.ui.com where the UniFi Cloud API is hosted.
 - an API key that can be obtained as follows:
   - Sign in to the UniFi Site Manager at https://unifi.ui.com.
-  - From the left navigation bar, click on API.
+  - From the left navigation bar, click on **API**.
   - Click **Create API Key**.
   - Copy the key and store it securely, as it will only be displayed once.
-  - Click Done to ensure the key is hashed and securely stored.
+  - Click **Done** to ensure the key is hashed and securely stored.
 
 ## Installation
 
@@ -234,7 +234,7 @@ $sites = $unifiClient->sites->list();
 `GET /ea/devices`
 
 #### Description
-List UniFi devices that are associated with the UI account making the API call.
+List UniFi devices that are associated with the UI account making the API call, grouped by host.
 
 #### Usage
 ```php
