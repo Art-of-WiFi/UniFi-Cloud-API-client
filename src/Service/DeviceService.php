@@ -41,7 +41,7 @@ class DeviceService implements ServiceInterface
      * If time is provided, filters devices by the specified time.
      *
      * @param array<string> $hostIds Optional. An array of host IDs to filter the devices.
-     * @param mixed $time Optional. A time parameter to filter the devices.
+     * @param null|string $time Optional. A time parameter to filter the devices.
      * @return array The list of devices, format can vary based on implementation.
      * @throws Exception If there is an error in the HTTP request, or if the host IDs are not strings.
      */

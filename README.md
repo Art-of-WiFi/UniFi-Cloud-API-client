@@ -90,13 +90,13 @@ try {
         '2024-07-15T07:01:13Z'
     );
     print_r($devices);
+
+    echo 'Effective URI:   ' . $unifiClient->getEffectiveUri() . PHP_EOL;
+    echo 'Transfer time:   ' . $unifiClient->getTransferTime() . ' seconds' . PHP_EOL;
+    echo 'Response status: ' . $unifiClient->getResponseStatusCode() . PHP_EOL;
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "\n";
 }
-
-echo 'Effective URI:   ' . $unifiClient->getEffectiveUri() . PHP_EOL;
-echo 'Transfer time:   ' . $unifiClient->getTransferTime() . ' seconds' . PHP_EOL;
-echo 'Response status: ' . $unifiClient->getResponseStatusCode() . PHP_EOL;
 ```
 
 ## Getter and Setter Methods

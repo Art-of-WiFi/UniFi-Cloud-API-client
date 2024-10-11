@@ -33,7 +33,7 @@ class UniFiClient
     private static ?UniFiClient $instance = null;
 
     /** @var string Version of the UniFi Cloud API client */
-    private const VERSION = '1.0.4';
+    private const VERSION = '1.0.5';
 
     /** @var Client Guzzle HTTP client instance */
     private Client $client;
