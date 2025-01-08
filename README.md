@@ -1,6 +1,6 @@
 # API client class for Official UniFi Cloud API
 
-A PHP class that provides access to Ubiquiti's official [**UniFi Cloud API**](https://developer.ui.com/unifi-api/)
+A PHP class that provides access to Ubiquiti's official [UniFi Cloud API](https://developer.ui.com/unifi-api/)
 for their [Site Manager](https://unifi.ui.com) platform.
 
 ## Introduction
