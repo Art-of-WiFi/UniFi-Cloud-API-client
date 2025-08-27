@@ -314,6 +314,17 @@ create a pull request.
 This class is based on the documentation provided by Ubiquiti for their UniFi Cloud API:
 https://developer.ui.com/unifi-api/
 
+
+## About Art of WiFi
+
+Art of WiFi develops software and tools that enhance the capabilities of UniFi networks. From captive portals and
+reporting solutions to device search utilities, our goal is to make UniFi deployments more powerful and easier to
+manage.
+
+If you're looking for a specific solution or just want to see what else we offer, feel free to explore our web site:
+- https://www.artofwifi.net
+
+
 ## Important Disclaimer
 
 This PHP class is provided "as is" without any guarantees or warranties. Use at your own risk.
